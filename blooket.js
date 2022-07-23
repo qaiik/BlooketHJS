@@ -33,8 +33,8 @@ Object.defineProperty(kit, "ctype", {
 kit = {
     ...kit,
     data: {
-        get: function(v) {
-            return kit.hack()[a]?kit.hack()[a]:kit.hack().stateNode[a]?kit.hack().state[a]:kit.hack().stateNode.state[a]?kit.hack().stateNode.state[a]:kit.hack().memoizedProps[a]?kit.hack().memoizedProps[a]:kit.hack().stateNode.props[a]?kit.hack().stateNode.props[a]:void 0;
+        get: function(a) {
+            return kit.hack()[a]?kit.hack()[a]:kit.hack().stateNode[a]?kit.hack().stateNode.state[a]:kit.hack().stateNode.state[a]?kit.hack().stateNode.state[a]:kit.hack().memoizedProps[a]?kit.hack().memoizedProps[a]:kit.hack().stateNode.props[a]?kit.hack().stateNode.props[a]:void 0;
         },
     }
 }
