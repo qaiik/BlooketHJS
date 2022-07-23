@@ -21,17 +21,10 @@ kit.setAmount = (type, value) => {
     return values
 }
 
-Object.defineProperty(kit, "ctype", {
-    get() {
-        return Object.entries(kit.hack().stateNode.state).map(a=>"number"==typeof a[1]?a[0]:null).filter(a=>Object.entries(kit.hack().stateNode.state).map(a=>"number"==typeof a[1]?a[0]:null).includes(a)&&Object.entries(kit.hack().stateNode.state).map(a=>"number"==typeof a[1]?a[0]:null).includes(a+"2"))[0]
-    },
-    set() {
-        return undefined
-    }
-});
 
 kit = {
     ...kit,
+    ctype: () => Object.entries(kit.hack().stateNode.state).map(a=>"number"==typeof a[1]?a[0]:null).filter(a=>Object.entries(kit.hack().stateNode.state).map(a=>"number"==typeof a[1]?a[0]:null).includes(a)&&Object.entries(kit.hack().stateNode.state).map(a=>"number"==typeof a[1]?a[0]:null).includes(a+"2"))[0],
     data: {
         defaultDelay: 50,
         get: function(a) {
@@ -60,3 +53,31 @@ function kit_waitStartOrInst() {
         }, kit.defaultDelay)
     })
 }
+
+kit.getCorrectAnswer = function () {
+    return kit.data.get("question").correctAnswers[0];
+}
+
+kit.setAllCorrect = () => {
+    kit.hack().stateNode.state.question.correctAnswers = kit.data.get("question").answers
+}
+
+kit.answer = () => {
+    kit.setAllCorrect();
+    document.querySelectorAll("div[style='display: block;']")[1].click()
+}
+    
+kit.elements = {};
+
+kit.elements.check = () => document.querySelector("#app > div > div > div.styles__feedbackContainer___1fuws-camelCase > div > div.styles__container___1-bHf-camelCase");
+kit.click = e => e.click();
+kit.elements.midchest = () => document.querySelector("#app > div > div > div.arts__regularBody___1TM6E-camelCase > div:nth-child(2) > div.styles__choice2___1aP2D-camelCase");
+kit.elements.advance = () => document.querySelector("#app");
+
+function startHack(func) {
+    setInterval(func, kit.defaultDelay)
+}
+
+var originalSetTimeout = setTimeout.bind(window);
+kit.setDelay = (d=0) => setTimeout = function(f,t) { originalSetTimeout(f,d) }
+
