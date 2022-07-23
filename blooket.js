@@ -33,8 +33,30 @@ Object.defineProperty(kit, "ctype", {
 kit = {
     ...kit,
     data: {
+        defaultDelay: 50,
         get: function(a) {
             return kit.hack()[a]?kit.hack()[a]:kit.hack().stateNode[a]?kit.hack().stateNode.state[a]:kit.hack().stateNode.state[a]?kit.hack().stateNode.state[a]:kit.hack().memoizedProps[a]?kit.hack().memoizedProps[a]:kit.hack().stateNode.props[a]?kit.hack().stateNode.props[a]:void 0;
         },
     }
+}
+
+let pregame = ["play", "lobby", "register", "instructions"]
+
+const isingame = () => !pregame.includes(kit.mode()) 
+const isingameorinst = () => !pregame.slice(0,3).includes(kit.mode())
+
+function kit_waitStart() {
+    return new Promise((res,rej) => {
+        let iint = setInterval(() => {
+            if (isingame() === true) res(true); clearInterval(iint)
+        }, kit.defaultDelay)
+    })
+}
+
+function kit_waitStartOrInst() {
+    return new Promise((res,rej) => {
+        let iint = setInterval(() => {
+            if (isingameorinst() === true) res(true); clearInterval(iint)
+        }, kit.defaultDelay)
+    })
 }
